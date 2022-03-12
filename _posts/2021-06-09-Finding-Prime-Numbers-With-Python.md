@@ -5,39 +5,44 @@ image: "/posts/primes_image.jpeg"
 tags: [Python, Primes]
 ---
 
-In this post I'm going to run through a function in Python that can quickly find all the Prime numbers below a given value.  For example, if I passed the function a value of 100, it would find all the prime numbers below 100!
+In this post I'm going to run through a function in Python that can quickly and efficiently find all the Prime numbers below a given value. For example, if I passed the function a value of 100, it would find all the prime numbers below 100!
 
-If you're not sure what a Prime number is, it is a number that can only be divided wholly by itself and one so 7 is a prime number as no other numbers apart from 7 or 1 divide cleanly into it 8 is not a prime number as while eight and one divide into it, so do 2 and 4
+This function is so efficeint that it can be extended to find very large number of prome numbers (e.g prime numbers between 2 and one million).
 
-Let's get into it!
+An integer number is a prime number if it can only be divided wholly by itself and one. So 11 is a prime number. It can only be divided cleanly by 11 and 1. 10 is not a prime number because in addition to 10 and 1, it 10 can be divided cleanly by 2 and 5 also.
+
+About the function:
 
 ---
 
-First let's start by setting up a variable that will act as the upper limit of numbers we want to search through. We'll start with 20, so we're essentially wanting to find all prime numbers that exist that are equal to or smaller than 20
+First we will use a variable that will act as the upper limit of numbers we want to search through. We'll start with 20, so we'll find all prime numbers that are equal to or smaller than 20
 
 ```ruby
 n = 20
 ```
 
-The smallest true Prime number is 2, so we want to start by creating a list of numbers than need checking so every integer between 2 and what we set above as the upper bound which in this case was 20. We use n+1 as the range logic is not inclusive of the upper limit we set there
+The smallest true Prime number is 2, so we want to start by creating a list of numbers between 2 and 20 (including 2 and n). Every integer between 2 and what we set above as the upper bound (which in this case is 20) need to be tested for prime number. To generate this numbers list, we will use python function range() with n+1 as the upper limit (because range() logic is not inclusive of the number used as the upper limit)
 
-Instead of using a list, we're going to use a set.  The reason for this is that sets have some special functions that will allow us to eliminate non-primes during our search.  You'll see what I mean soon...
+Logic:
+Rather than checking/testing every number in the list by dividing it with each number from 2 and the number value, we will use a logic of eliminations. Once we find a prime number, we do not need to test all other multiples of this prime number (in the range of numbers that we are working on). Because they are multiple of the prime number we found they are cleanly divisible by the prime number (we just found). This eliminates a need to test every number and this makes this function really efficient. For example if we are trying to find prime numbers between 2 and 20, we know 2 is prime. This means 2*2 = 4, 2*3 = 6, 2*4 = 8, 10, 12, 14, 16, 18 and 20 are divisible by 2 (the first prime number). We can eliminate them from the list of numbers to be tested. This reduces the list of numbers to be tested in next iteration to 3, 5, 7, 9, 11, 13, 15, 17, 19. Next number is 3 and that is prime too. That means we do need to test 9 and 15 also. That reduces list to 5, 7, 11, 13, 17, 19. In this case we reduced the comutation load to a great extent be reducing the numbers to be tested. Now imagine if we have to find all the prime numbers that are less than or equal to 1,000,000. This method will result in great saving in time and compute resources.
+
+Instead of using a list, we will usee a set.  The reason for this is that sets have some special functions that will allow us to eliminate non-primes during our search.  You'll see what I mean soon...
 
 ```ruby
 number_range = set(range(2, n+1))
 ```
 
-Let's also create a place where we can store any primes we discover.  A list will be perfect for this job
+Let's also create a list where we can store any primes we discover. We do not need a set for this. List will work fine:
 
 ```ruby
 primes_list = []
 ```
 
-We're going to end up using a while loop to iterate through our list and check for primes, but before we construct that I always it valuable to code up the logic and iterate manually first.  This means I can check that it is working correctly before I set it off to run through everything on it's own
+We're going to use a while loop to iterate through our list and check for primes, but before we construct that we code the logic and iterate manually first.  This means we can check that the logic is working correctly before we set it off to run through everything on it's own in a loop.
 
 So, we have our set of numbers (called number_range to check all integers between 2 and 20. Let's extract the first number from that set that we want to check as to whether it's a prime. When we check the value we're going to check if it is a prime...if it is, we're going to add it to our list called primes_list...if it isn't a prime we don't want to keep it
 
-There is a method which will remove an element from a list or set and provide that value to us, and that method is called *pop*
+We will use *pop* to remove elements from the the list or set and get that value: 
 
 ```ruby
 print(number_range)
@@ -138,7 +143,7 @@ print(primes_list)
 >>> [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997]
 ```
 
-Let's now get some interesting stats from our list which we can use to summarise our findings, the number of primes that were found, and the largest prime in the list!
+Some interesting stats from our list of prime numbers: 
 
 ```ruby
 prime_count = len(primes_list)
@@ -147,9 +152,8 @@ print(f"There are {prime_count} prime numbers between 1 and {n}, the largest of 
 >>> There are 168 prime numbers between 1 and 1000, the largest of which is 997
 ```
 
-Amazing!
 
-The next thing to do would be to put it into a neat function, which you can see below:
+Next we put above logic in a function:
 
 ```ruby
 def primes_finder(n):
@@ -172,7 +176,7 @@ def primes_finder(n):
     print(f"There are {prime_count} prime numbers between 1 and {n}, the largest of which is {largest_prime}")
 ```
 
-Now we can just pass the function the upper bound of our search and it will do the rest!
+Now we can use this function and pass the upper bound of our search and it will do the rest!
 
 Let's go for something large, say a million...
 
@@ -181,9 +185,9 @@ primes_finder(1000000)
 >>> There are 78498 prime numbers between 1 and 1000000, the largest of which is 999983
 ```
 
-That is pretty cool!
+Isn't that cool!
 
-I hoped you enjoyed learning about Primes, and one way to search for them using Python.
+I hoped you enjoyed learning about Primes, and one of the many ways to search for them using Python.
 
 ---
 
